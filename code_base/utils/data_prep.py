@@ -58,8 +58,13 @@ def get_audio_df_markup(raw_text, sample_name):
     )
 
 
-def trim_audio(markup_df, input_au, input_sr=16_000):
-    au_start = milliseconds_2_points(markup_df.replica_start.min(), sr=input_sr)
+def trim_audio_and_correct_df(markup_df, input_au, input_sr=16_000):
+    milliseconds_start = markup_df.replica_start.min()
+
+    au_start = milliseconds_2_points(milliseconds_start, sr=input_sr)
     au_end = milliseconds_2_points(markup_df.replica_end.max(), sr=input_sr)
 
-    return input_au[au_start:au_end]
+    markup_df.replica_start -= milliseconds_start
+    markup_df.replica_end -= milliseconds_start
+
+    return input_au[au_start:au_end], markup_df

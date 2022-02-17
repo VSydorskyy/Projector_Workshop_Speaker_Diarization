@@ -14,7 +14,7 @@ from code_base.utils import (
     get_audio_df_markup,
     get_markup_path,
     read_file,
-    trim_audio,
+    trim_audio_and_correct_df,
 )
 
 if __name__ == "__main__":
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             continue
 
         au, sr = librosa.load(au_path, sr=None)
-        au = trim_audio(file_markup_df, au, sr)
+        au, file_markup_df = trim_audio_and_correct_df(file_markup_df, au, sr)
         new_au_path = pjoin(new_audio_root, basename(au_path))
         if exists(new_au_path):
             raise RuntimeError(f"{new_au_path} already exists")

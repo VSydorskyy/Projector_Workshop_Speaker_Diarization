@@ -1,3 +1,6 @@
+from os.path import join as pjoin
+
+
 def milliseconds_2_points(input, sr=16_000):
     if sr % 1000 == 0:
         khz = int(sr / 1000)
@@ -11,3 +14,7 @@ def read_file(filename):
         text_content = f.read()
 
     return text_content
+
+
+def get_audio_path(root, sample_name):
+    return pjoin(root, sample_name) + ".wav"
